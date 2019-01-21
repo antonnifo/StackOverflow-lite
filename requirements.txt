@@ -1,0 +1,15 @@
+aniso8601==4.0.1
+coverage==4.5.2
+Click==7.0
+Flask==1.0.2
+Flask-RESTful==0.3.7
+gunicorn==19.9.0
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+pytest==4.0.1
+pytest-cov==2.6.0
+python-dotenv==0.9.1
+pytz==2018.7
+six==1.12.0
+Werkzeug==0.14.1
