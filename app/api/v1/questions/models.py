@@ -43,4 +43,8 @@ class QuestionModel():
             if question['id'] == question_id:
                 return question
 
-        return "question does not exist"    
+        return "question does not exist"
+
+    def delete(self, question):
+        self.db.remove(question)
+        return "deleted"
