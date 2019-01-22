@@ -37,3 +37,22 @@ class Questions(Resource):
             "status": 200,
             "data": self.db.get_all()
         })
+
+        
+class Question(Resource):
+    """docstring of a single question"""
+
+    def __init__(self):
+        """initiliase the Redflag class"""
+        self.db = QuestionModel()
+
+    def get(self, question_id):
+        """docstring for getting a specific question"""
+        question = self.db.find(question_id)
+        if question == "question does not exist":
+               return non_existance_question()
+       
+        return jsonify({
+            "status": 200,
+            "data": question
+        })

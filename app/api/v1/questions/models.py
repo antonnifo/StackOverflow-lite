@@ -37,3 +37,10 @@ class QuestionModel():
         if not self.db:
             return None
         return self.db
+
+    def find(self, question_id):
+        for question in self.db:
+            if question['id'] == question_id:
+                return question
+
+        return "question does not exist"    
