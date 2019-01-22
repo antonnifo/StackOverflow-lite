@@ -68,3 +68,26 @@ class Question(Resource):
                 "status": 200,
                 "message": 'question record has been deleted'
             })
+
+class UpdateTitle(Resource):
+    """class to update question title"""
+
+    def __init__(self):
+        self.db = QuestionModel()
+
+    def patch(self, question_id):
+        """method to update question's title"""
+        question = self.db.find(question_id)
+
+        if question == "question does not exist":
+            return non_existance_question()
+        edit_status = self.db.edit_question_title(question)
+
+        if edit_status == "updated":
+            return jsonify({
+                "status": 200,
+                "data": {
+                    "id": question_id,
+                    "message": "Updated question's title"
+                }
+            })
