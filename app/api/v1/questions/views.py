@@ -23,3 +23,17 @@ class Questions(Resource):
                 "message": "Created a question record"
             }
         })
+
+    def get(self):
+        """docstring for getting all the questions posted"""
+        data = self.db.get_all()
+        if data is None:
+            return jsonify({
+                "status" : 200,
+                "message" : "There are no questions at the moment"
+        })
+
+        return jsonify({
+            "status": 200,
+            "data": self.db.get_all()
+        })
