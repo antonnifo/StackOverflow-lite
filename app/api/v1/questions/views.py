@@ -81,6 +81,7 @@ class UpdateTitle(Resource):
 
         if question == "question does not exist":
             return non_existance_question()
+            
         edit_status = self.db.edit_question_title(question)
 
         if edit_status == "updated":
@@ -89,5 +90,29 @@ class UpdateTitle(Resource):
                 "data": {
                     "id": question_id,
                     "message": "Updated question's title"
+                }
+            })
+
+class UpdateQuestion(Resource):
+    """docstring for patching a question"""
+
+    def __init__(self):
+        self.db = QuestionModel()
+
+    def patch(self, question_id):
+        """method to update a question"""
+        question = self.db.find(question_id)
+
+        if question == "question does not exist":
+            return non_existance_question()
+ 
+        edit_status = self.db.edit_question(question)
+
+        if edit_status == "updated":
+            return jsonify({
+                "status": 200,
+                "data": {
+                    "id": question_id,
+                    "message": "Updated question"
                 }
             })
