@@ -58,3 +58,16 @@ class UserModel:
         if cursor.rowcount == 0:
             return None
         return row
+
+    def log_in(self):
+        data = {
+            'user_name': request.json.get('user_name'),
+            'password': request.json.get('password')
+        }
+        user = self.find_user_by_username(data['user_name'])
+        if user == None:
+            return None
+        if check_password_hash(user['password'], data['password']) == False:
+            return 'incorrect password'
+        return user['user_name']
+
