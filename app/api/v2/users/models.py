@@ -8,8 +8,47 @@ from flask_restful import reqparse
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.api.db_config import connection
-from app.api.db_config import DATABASE_URL as url 
+from app.api.db_config import DATABASE_URL as url
+from app.api.validators import validate_email, validate_string, validate_password
 
+parser = reqparse.RequestParser(bundle_errors=True)
+parser.add_argument('first_name',
+                    type=validate_string,
+                    required=True,
+                    nullable=False,
+                    trim=True,
+                    help="This field cannot be left blank or should be properly formated"
+                    )
+
+parser.add_argument('last_name',
+                    type=validate_string,
+                    required=True,
+                    nullable=False,
+                    help="This field cannot be left blank or should be properly formated"
+                    )
+
+parser.add_argument('email',
+                    type=validate_email,
+                    required=True,
+                    nullable=False,
+                    trim=True,
+                    help="This field cannot be left blank or should be properly formated"
+                    )
+
+parser.add_argument('user_name',
+                    type=validate_string,
+                    required=False,
+                    trim=True,
+                    nullable=True,
+                    help="This field cannot be left blank or should be properly formated"
+                    )
+
+parser.add_argument('password',
+                    type=validate_password,
+                    required=True,
+                    nullable=False,
+                    help="This field cannot be left blank or should be properly formated and should contain atleast 8 characters"
+                    
 class UserModel:
     """class for manipulating user data"""
 
@@ -25,7 +64,7 @@ class UserModel:
         return check_password_hash(self.pwdhash, password)
 
     def save(self):
-        # parser.parse_args()
+        parser.parse_args()
         data = {
             'user_name': request.json.get('user_name'),
             'first_name': request.json.get('first_name'),
@@ -58,3 +97,16 @@ class UserModel:
         if cursor.rowcount == 0:
             return None
         return row
+
+    def log_in(self):
+        data = {
+            'user_name': request.json.get('user_name'),
+            'password': request.json.get('password')
+        }
+        user = self.find_user_by_username(data['user_name'])
+        if user == None:
+            return None
+        if check_password_hash(user['password'], data['password']) == False:
+            return 'incorrect password'
+        return user['user_name']
+
