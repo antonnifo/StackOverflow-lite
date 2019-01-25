@@ -32,3 +32,12 @@ class QuestionsModel:
         cursor.execute(query)
         conn.commit()
         return data
+
+    def find_all(self):
+        """method to find all questions"""
+        query = """SELECT * from questions"""
+        conn = self.db
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query)
+        questions = cursor.fetchall()
+        return questions

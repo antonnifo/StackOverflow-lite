@@ -29,3 +29,12 @@ class Questions(Resource):
             "data": question,
             "message": "Created a question"
         })
+
+    @require_token
+    def get(current_user, self):
+        """method for getting all the questions posted by users"""
+        questions = self.db.find_all()
+        return jsonify({
+            "status": 200,
+            "data": questions
+        })        
