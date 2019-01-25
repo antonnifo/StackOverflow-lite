@@ -48,7 +48,7 @@ parser.add_argument('password',
                     required=True,
                     nullable=False,
                     help="This field cannot be left blank or should be properly formated and should contain atleast 8 characters"
-                    
+                    )
 class UserModel:
     """class for manipulating user data"""
 
@@ -109,4 +109,3 @@ class UserModel:
         if check_password_hash(user['password'], data['password']) == False:
             return 'incorrect password'
         return user['user_name']
-

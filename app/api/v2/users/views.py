@@ -1,9 +1,12 @@
 """Views for users"""
+import os
 import datetime
 
 from flask import jsonify,request
 from flask_restful import Resource
 from .models import UserModel
+import jwt
+secret = os.getenv('SECRET_KEY')
 
 def nonexistent_user():
     return jsonify({
@@ -60,10 +63,17 @@ class UserSignIn(Resource):
                 "message": "password or email is incorrect please try again"
             })
 
+        payload = {
+            "user_name": user,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
+        }
+        token = jwt.encode(payload=payload, key=secret, algorithm='HS256')
+
         return jsonify({
             "status": 200,
             "data": [
                 {
+                    "token": token.decode('UTF-8'),
                     "user": user,
                     "message": "You are now signed in you can post your question"
                 }
