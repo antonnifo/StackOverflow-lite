@@ -63,7 +63,7 @@ class UserSignIn(Resource):
                 "message": "password or email is incorrect please try again"
             })
 
-         payload = {
+        payload = {
             "user_name": user,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
         }
