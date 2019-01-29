@@ -11,7 +11,7 @@ secret = os.getenv('SECRET_KEY')
 
 def require_token(f):
     @wraps(f)
-    def secure(*args, ** kwargs):
+    def decorated(*args, ** kwargs):
         token = None
 
         if 'token' in request.headers:
@@ -23,7 +23,9 @@ def require_token(f):
             })
 
         try:
-            data = jwt.decode(token, secret)
+            #if the token is able to be decoded using the signature get the user by username
+            #else avtivate the exception block 
+            data = jwt.decode(token, secret) 
             current_user = UserModel().find_user_by_username(data['user_name'])
 
         except:
@@ -32,4 +34,5 @@ def require_token(f):
                 "message": "Token is invalid"
             })
         return f(current_user, *args, **kwargs)
-    return secure
+        #return inner function to the outerfunction
+    return decorated
