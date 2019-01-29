@@ -55,7 +55,7 @@ def tables():
     question_id serial PRIMARY KEY NOT NULL,
     user_id int NOT NULL,
     title character varying(200) NOT NULL,
-    description character varying(1000),
+    question character varying(1000),
     date_created timestamp with time zone DEFAULT ('now'::text)::date NOT NULL
     )"""
 
