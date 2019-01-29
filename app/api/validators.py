@@ -23,8 +23,9 @@ def validate_email(value):
 
 
 parser = reqparse.RequestParser(bundle_errors=True)
-parser_edit_question = reqparse.RequestParser(bundle_errors=True)
-parser_edit_title = reqparse.RequestParser(bundle_errors=True)
+parser_edit_question = reqparse.RequestParser()
+parser_edit_title = reqparse.RequestParser()
+parser_answer = reqparse.RequestParser()
 
 
 parser.add_argument('title',
@@ -43,15 +44,15 @@ parser_edit_title.add_argument('title',
                                 help="This field cannot be left blank or should be properly formated"
                                 )
 
-parser.add_argument('question',
-                    type=validate_string,
-                    required=True,
-                    trim=True,
-                    nullable=False,
-                    help="This field cannot be left blank or improperly formated"
-                    )
-
 parser_edit_question.add_argument('question',
+                                 type=validate_string,
+                                 required=True,
+                                 trim=True,
+                                 nullable=False,
+                                 help="This field cannot be left blank or should be properly formated"
+                                 )
+
+parser_answer.add_argument('answer',
                                  type=validate_string,
                                  required=True,
                                  trim=True,
