@@ -58,17 +58,23 @@ class UserSignIn(Resource):
             return nonexistent_user()
 
         if user == 'incorrect password':
+            #returns json objects instead of html 
             return jsonify({
                 "status": 401,
-                "message": "password or email is incorrect please try again"
+                "message": "password or email is incorrect please check your details"
             })
 
         payload = {
             "user_name": user,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60)
         }
+        
+        # An API endpoint is setup at /auth that accepts username
+        # via JSON payload and returns access_token
+        # which is the JSON Web Token 
+        
         token = jwt.encode(payload=payload, key=secret, algorithm='HS256')
-
+        #since p3 is being used the token needs to be decoded to a regular string
         return jsonify({
             "status": 200,
             "data": [
