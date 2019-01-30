@@ -38,3 +38,25 @@ class Questions(Resource):
             "status": 200,
             "data": questions
         })        
+
+
+class Question(Resource):
+    """This class deals with posting and reading questions"""
+
+    def __init__(self):
+        """
+        executes when the class is being initiated
+        used to assign values to object properties
+        self parameter is a reference to tha class instance itself & is used 
+        to access variables that belong to that class
+        """
+        self.db = QuestionsModel()
+
+    @require_token
+    def get(current_user,self, question_id):
+        """method for getting a specific question and all its answers"""
+        questions = self.db.find_quiz_answers(question_id)
+        return jsonify({
+            "status": 200,
+            "data": questions
+        })     

@@ -52,3 +52,18 @@ class QuestionsModel:
         if not question:
             return False
         return question
+
+    def find_quiz_answers(self, question_id):
+        """method to find a specific quiz and its answers"""
+        query = """SELECT questions.title, questions.question, questions.date_created, answers.answer, answers.date_created, answers.user_preferred
+                   FROM questions
+                   INNER JOIN answers ON questions.question_id=answers.question_id"""
+        conn = self.db
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query)
+        questions = cursor.fetchall()
+        self.ttle=questions.data['title']
+        self.questa=questions.data['question']
+        self.quest=questions.data['answers']
+        for 
+        return questions        
