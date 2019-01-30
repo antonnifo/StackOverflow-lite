@@ -20,13 +20,13 @@ class QuestionsModel:
     def save(self, user_id):
         parser.parse_args()
         data = {
-            'createdBy': user_id,
+            'user_id': user_id,
             'title': request.json.get('title'),
-            'description': request.json.get('description')
+            'question': request.json.get('question')
         }
 
-        query = """INSERT INTO questions (createdby,title, description) VALUES({0},'{1}','{2}');""".format(
-             data['createdBy'], data['title'], data['description'])
+        query = """INSERT INTO questions (user_id ,title, question) VALUES({0},'{1}','{2}');""".format(
+             data['user_id'], data['title'], data['question'])
         conn = self.db
         cursor = conn.cursor()
         cursor.execute(query)
@@ -41,3 +41,14 @@ class QuestionsModel:
         cursor.execute(query)
         questions = cursor.fetchall()
         return questions
+
+    def find_quiz_by_id(self,question_id):
+        """method to a question by ID"""
+        query = """SELECT * from questions WHERE  question_id={0} """.format(question_id)
+        conn = self.db
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query)
+        question = cursor.fetchone()
+        if not question:
+            return False
+        return question
