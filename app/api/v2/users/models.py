@@ -60,8 +60,8 @@ class UserModel:
         '''salting the passwords '''
         return generate_password_hash(password)
 
-    def check_passsword(self, password):
-        return check_password_hash(self.pwdhash, password)
+    def check_passsword(self, pwdhash, password):
+        return check_password_hash(pwdhash, password)
 
     def save(self):
         parser.parse_args()
