@@ -8,7 +8,7 @@ from flask_restful import reqparse
 
 from app.api.db_config import DATABASE_URL as url
 from app.api.db_config import connection
-from app.api.validators import parser
+from app.api.validators import parser, parser_edit_question
 
 
 class QuestionsModel:
@@ -43,7 +43,7 @@ class QuestionsModel:
         return questions
 
     def find_quiz_by_id(self,question_id):
-        """method to a question by ID"""
+        """method to find a question by ID"""
         query = """SELECT * from questions WHERE  question_id={0} """.format(question_id)
         conn = self.db
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -80,3 +80,16 @@ class QuestionsModel:
             cursor.execute(query)
             conn.commit()
             return 'deleted'
+
+    def update_quiz(self, question_id):
+        "Method to edit a qustion"
+        parser_edit_question.parse_args()
+        question = request.json.get('question')
+
+        query = """UPDATE questions SET question='{0}' WHERE question_id={1}""".format(
+            question, question_id)
+        con = self.db
+        cursor = con.cursor()
+        cursor.execute(query)
+        con.commit()
+        return 'quiz updated'
