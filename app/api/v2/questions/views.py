@@ -5,7 +5,8 @@ from flask_restful import Resource
 from app.api.v2.questions.models import QuestionsModel
 from app.api.v2.token_decorator import require_token
 from app.api.v2.users.models import UserModel
-from app.api.validators import non_existance_question, only_creater_can_delete
+from app.api.validators import (
+    non_existance_question, only_creater_can_delete, only_creater_can_edit)
 
 
 class Questions(Resource):
@@ -76,4 +77,39 @@ class Question(Resource):
             return jsonify({
                 "status": 200,
                 "message": 'you have deleted your question'
-            })         
+            })
+
+class UpdateQuestion(Resource):
+    """view class for updating a quiz"""
+
+    def __init__(self):
+        """
+        executes when the class is being initiated
+        used to assign values to object properties
+        self parameter is a reference to tha class instance itself & is used 
+        to access variables that belong to that class
+        """
+        self.db = QuestionsModel()
+
+    @require_token
+    def patch(current_user, self, question_id):
+        """method to update a question"""
+        question = self.db.find_quiz_by_id(
+            question_id)
+        if question is None:
+            return non_existance_question()
+
+        if current_user["user_id"] != question['user_id']:
+            return only_creater_can_edit()
+
+        edit_status = self.db.update_quiz(
+            question_id)
+
+        if edit_status == "quiz updated":
+            return jsonify({
+                "status": 200,
+                "data": {
+                    "id": question_id,
+                    "message": "Updated your question"
+                }
+            })
