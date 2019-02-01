@@ -26,7 +26,7 @@ class Answers(Resource):
     def post(current_user,self, question_id):
         """method for answering a question"""
         self.quiz = QuestionsModel().find_quiz_by_id(question_id)
-        if self.quiz is False:
+        if self.quiz is None:
             return non_existance_question()
 
         answer = self.db.post_answer(

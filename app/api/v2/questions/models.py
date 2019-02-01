@@ -50,7 +50,7 @@ class QuestionsModel:
         cursor.execute(query)
         question = cursor.fetchone()
         if not question:
-            return False
+            return None
         return question
 
     def find_quiz_answers(self, question_id):
@@ -62,8 +62,21 @@ class QuestionsModel:
         cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(query)
         questions = cursor.fetchall()
-        self.ttle=questions.data['title']
-        self.questa=questions.data['question']
-        self.quest=questions.data['answers']
-        for 
-        return questions        
+        return questions
+
+    def delete(self, question_id):
+        "Method to delete question and all its answers"
+        delete_quiz = """DELETE FROM questions WHERE question_id={0}""".format(
+            question_id)
+        
+        delete_answers = """DELETE FROM answers WHERE question_id={0}""".format(
+            question_id)
+        queries = [delete_quiz, delete_answers]
+
+        conn = self.db
+        cursor = conn.cursor()
+
+        for query in queries:
+            cursor.execute(query)
+            conn.commit()
+            return 'deleted'

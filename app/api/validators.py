@@ -66,3 +66,9 @@ def non_existance_question():
         "status": 404,
         "error": "question does not exist"
     })
+
+def only_creater_can_delete():
+    return jsonify({
+            "status": 401,
+            "error": "sorry you can't delete me!"
+            })

@@ -21,7 +21,7 @@ class AnswerModel:
         data = {
             'user_id': user_id,
             'question_id':question_id,
-            'answer': request.json.get('answer'),
+            'answer': request.json.get('answer')
             
         }
 
@@ -32,3 +32,4 @@ class AnswerModel:
         cursor.execute(query)
         conn.commit()
         return data
+        
