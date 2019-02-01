@@ -1,14 +1,11 @@
-"""Models for questions"""
-
-import re
+"""Models for answers"""
 
 import psycopg2.extras
 from flask import request
-from flask_restful import reqparse
 
 from app.api.db_config import DATABASE_URL as url
 from app.api.db_config import connection
-from app.api.validators import parser_answer
+from app.api.validators import parser_answer, parser_edit_answer
 
 class AnswerModel:
     """Class with methods to perform CRUD operations on the DB"""
@@ -32,4 +29,27 @@ class AnswerModel:
         cursor.execute(query)
         conn.commit()
         return data
-        
+
+    def find_answer_by_id(self,answer_id):
+        """method to find an answer by ID"""
+        query = """SELECT * from answers WHERE  answer_id={0} """.format(answer_id)
+        conn = self.db
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query)
+        answer = cursor.fetchone()
+        if not answer:
+            return None
+        return answer
+
+    def update_answer(self, answer_id):
+        "Method to edit an answer"
+        parser_edit_answer.parse_args()
+        answer = request.json.get('answer')
+
+        query = """UPDATE answers SET answer='{0}' WHERE answer_id={1}""".format(
+            answer, answer_id)
+        con = self.db
+        cursor = con.cursor()
+        cursor.execute(query)
+        con.commit()
+        return 'answer updated'
