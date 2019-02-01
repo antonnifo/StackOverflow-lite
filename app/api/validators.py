@@ -25,10 +25,19 @@ def validate_email(value):
 parser = reqparse.RequestParser(bundle_errors=True)
 parser_edit_question = reqparse.RequestParser()
 parser_edit_title = reqparse.RequestParser()
+parser_edit_answer = reqparse.RequestParser()
 parser_answer = reqparse.RequestParser()
 
 
 parser.add_argument('title',
+                    type=validate_string,
+                    required=True,
+                    trim=True,
+                    nullable=False,
+                    help="This field cannot be left blank or improperly formated"
+                    )
+
+parser.add_argument('question',
                     type=validate_string,
                     required=True,
                     trim=True,
@@ -59,6 +68,13 @@ parser_answer.add_argument('answer',
                                  nullable=False,
                                  help="This field cannot be left blank or should be properly formated"
                                  )
+parser_edit_answer.add_argument('answer',
+                                 type=validate_string,
+                                 required=True,
+                                 trim=True,
+                                 nullable=False,
+                                 help="This field cannot be left blank or should be properly formated"
+                                 )
 
 def non_existance_question():
     '''return message for a question  that does not exist'''
@@ -72,3 +88,10 @@ def only_creater_can_delete():
             "status": 401,
             "error": "sorry you can't delete me!"
             })
+
+def only_creater_can_edit():
+    '''return message for only creater of an question can patch it'''
+    return jsonify({
+            "status": 401,
+            "error": "sorry you can't edit me lol"
+})
