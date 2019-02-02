@@ -32,7 +32,7 @@ class UserSignUp(Resource):
        
 
         user_details = {
-            "name": user['user_name'],         
+            "User Name": user['user_name'],         
         }
         return jsonify({
             "status": 201,
