@@ -11,7 +11,7 @@ def create_app(config_name):
     app.config.from_object(APP_CONFIG[config_name] or 'default')
     app.url_map.strict_slashes = False
     create_tables()
-    super_user()
+    # super_user()
     
     app.register_blueprint(v1)
     app.register_blueprint(v2)
