@@ -79,7 +79,7 @@ class AnswerModel:
     def accept_answer(self, answer_id):
         """Method for the owner of the quiz to accept an answer"""
 
-        parser_user_preferred.parse_args()
+        # parser_user_preferred.parse_args()
         user_preferred = request.json.get('user_preferred')
 
         self.set_false(answer_id)

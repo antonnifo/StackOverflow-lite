@@ -45,7 +45,7 @@ class UpdateAnswer(Resource):
         self parameter is a reference to tha class instance itself & is used 
         to access variables that belong to that class
         """
-        self.db = QuestionsModel()
+        self.db = AnswerModel()
 
     @require_token
     def patch(current_user, self, answer_id):
@@ -81,7 +81,7 @@ class AcceptAnswer(Resource):
         self parameter is a reference to tha class instance itself & is used 
         to access variables that belong to that class
         """
-        self.db = QuestionsModel()
+        self.db = AnswerModel()
 
     @require_token
     def patch(current_user, self, answer_id):
