@@ -1,10 +1,7 @@
 """Models for questions"""
 
-import re
-
 import psycopg2.extras
 from flask import request
-from flask_restful import reqparse
 
 from app.api.db_config import DATABASE_URL as url
 from app.api.db_config import connection
