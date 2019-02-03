@@ -30,24 +30,23 @@ def create_tables():
             cursor.execute(query)
         conn.commit()
         print('Creating Tables.....Done')
-    except:
-        print("Failed to Create tables")    
-
-
-# def destroy_tables():
-#     conn = connection(DATABASE_URL_TEST)
-#     cursor = conn.cursor()
-#     users = "DROP TABLE IF EXISTS users CASCADE"
-#     questions = "DROP TABLE IF EXISTS questions CASCADE"
-#     answers = "DROP TABLE IF EXISTS answers CASCADE"
-#     queries = [questions, users, answers]
-#     try:
-#         for query in queries:
-#             cursor.execute(query)
-#         con.commit()
-#         print('Destroying test tables...Done ')
-#     except:
-#         print("Failed to Destroy tables")
+    except Exception as e:
+        print(e)
+          
+def destroy_tables():
+    conn = connection(DATABASE_URL)
+    cursor = conn.cursor()
+    users = "DROP TABLE IF EXISTS users CASCADE"
+    questions = "DROP TABLE IF EXISTS questions CASCADE"
+    answers = "DROP TABLE IF EXISTS answers CASCADE"
+    queries = [questions, users, answers]
+    try:
+        for query in queries:
+            cursor.execute(query)
+        conn.commit()
+        print('Destroying test tables...Done ')
+    except Exception as e:
+        print(e)
 
 
 def tables():
