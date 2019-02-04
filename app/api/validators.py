@@ -27,8 +27,17 @@ parser_edit_question = reqparse.RequestParser()
 parser_edit_title = reqparse.RequestParser()
 parser_edit_answer = reqparse.RequestParser()
 parser_answer = reqparse.RequestParser()
+parser_user_preferred = reqparse.RequestParser()
 
-
+parser_user_preferred.add_argument('user_preferred',
+                                type=str,
+                                required=True,
+                                trim=True,
+                                nullable=False,
+                                choices=(
+                                    True),
+                                help="This field cannot be left blank or should only be set to True "
+)
 parser.add_argument('title',
                     type=validate_string,
                     required=True,
