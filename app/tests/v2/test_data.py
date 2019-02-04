@@ -28,6 +28,11 @@ user = {
     "isAdmin" : False
 }
 
+answer_data = {
+"answer":"you just allow automatic updates hello"
+
+}
+
 data5 = {
     "user_name" : "ule msee",
     "password" : "hello123"
