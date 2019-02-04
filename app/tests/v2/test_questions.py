@@ -108,7 +108,7 @@ class QuestionsTestCase(unittest.TestCase):
         response = self.app.delete("/api/v2/questions/1")
         json.loads(response.data)
         print(response)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
         destroy_tables()                                         
