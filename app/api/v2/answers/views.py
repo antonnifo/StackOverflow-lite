@@ -35,7 +35,8 @@ class Answers(Resource):
             "data": answer
         })
 
-class UpdateAnswer(Resource):
+
+class Answer(Resource):
     """view class for updating an answer"""
 
     def __init__(self):
@@ -69,6 +70,32 @@ class UpdateAnswer(Resource):
                     "message": "Updated your answer"
                 }
             })
+
+    @require_token
+    def delete(current_user, self, answer_id):
+        """method to update an answer"""
+        answer = self.db.find_answer_by_id(
+            answer_id)
+        if answer is None:
+            return jsonify({
+                'status':404,
+                'error':'no such answer found'
+            })
+
+        if current_user["user_id"] != answer['user_id']:
+            return only_creater_can_edit()
+
+        delete_status = self.db.delete(
+            answer_id)
+
+        if delete_status == "deleted":
+            return jsonify({
+                "status": 200,
+                "data": {
+                    "id": answer_id,
+                    "message": "You have deleted your answer"
+                }
+            })               
 
 
 class AcceptAnswer(Resource):
