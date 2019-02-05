@@ -78,8 +78,6 @@ class AnswerModel:
 
     def accept_answer(self, answer_id):
         """Method for the owner of the quiz to accept an answer"""
-
-        # parser_user_preferred.parse_args()
         user_preferred = request.json.get('user_preferred')
 
         self.set_false(answer_id)
@@ -90,3 +88,13 @@ class AnswerModel:
         cursor.execute(query)
         con.commit()
         return 'answer accepted'
+
+    def delete(self, answer_id):
+        "Method to delete an answer specifically by the author of the answer"
+        query = """DELETE FROM answers WHERE answer_id={0}""".format(
+            answer_id)
+        conn = self.db
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        return "deleted"    
