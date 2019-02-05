@@ -69,8 +69,7 @@ class QuestionsTestCase(unittest.TestCase):
         response = self.app.post(
             "/api/v2/questions/1/answers", headers=self.headers, data=json.dumps(self.answer))        
         response = self.app.patch(
-            "/api/v2/answers/1/answers", headers=self.headers, data=json.dumps({"answer": "hello quiz"}))
-        json.loads(response.data)
+            "/api/v2/answers/1", headers=self.headers, data=json.dumps({"answer": "hello quiz"}))
         self.assertEqual(response.status_code, 200)
 
     def test_user_accept_answer(self):
@@ -81,7 +80,34 @@ class QuestionsTestCase(unittest.TestCase):
             "/api/v2/questions/1/answers", headers=self.headers, data=json.dumps(self.answer))
         response = self.app.patch(
             "/api/v2/answers/1/answer", headers=self.headers, data=json.dumps({"user_preferred": True}))
-        self.assertEqual(response.status_code, 200)                                              
+        self.assertEqual(response.status_code, 200)
 
+    def test_delete_answer(self):
+        """Test delete a specific an answer you authored"""
+        self.app.post("/api/v2/questions", headers=self.headers,
+                      data=json.dumps(self.question))
+        response = self.app.post(
+            "/api/v2/questions/1/answers", headers=self.headers, data=json.dumps(self.answer))              
+        response = self.app.delete("/api/v2/questions/1", headers=self.headers)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_non_existance_answer(self):
+        """Test delete a specific an answer you authored"""
+        self.app.post("/api/v2/questions", headers=self.headers,
+                      data=json.dumps(self.question))
+        response = self.app.post(
+            "/api/v2/questions/1/answers", headers=self.headers, data=json.dumps(self.answer))              
+        response = self.app.delete("/api/v2/questions/1", headers=self.headers)
+        response = self.app.delete("/api/v2/questions/1", headers=self.headers)
+        self.assertEqual(response.status_code, 200)        
+
+    def test_delete_answer_withiout_token(self):
+        """method to test if one can delete a question withiout token"""
+        self.app.post("/api/v2/questions",
+                      data=json.dumps(self.question))
+        response = self.app.delete("/api/v2/questions/1")
+        json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        
     def tearDown(self):
         destroy_tables()                                         
