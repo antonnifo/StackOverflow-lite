@@ -34,7 +34,7 @@ def create_tables():
         print(e)
           
 def destroy_tables():
-    conn = connection(DATABASE_URL)
+    conn = connection(DATABASE_URL_TEST)
     cursor = conn.cursor()
     users = "DROP TABLE IF EXISTS users CASCADE"
     questions = "DROP TABLE IF EXISTS questions CASCADE"
