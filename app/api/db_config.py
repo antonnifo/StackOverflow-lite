@@ -1,4 +1,5 @@
-'''Psycopg is a PostgreSQL adapter for Python
+'''
+Psycopg is a PostgreSQL adapter for Python
 several threads can share the same connection
 It was designed for heavily multi-threaded applications
 that create and destroy lots of cursors and make a large
@@ -9,6 +10,8 @@ import os
 import psycopg2 as p
 import psycopg2.extras
 from werkzeug.security import generate_password_hash
+
+from app.api.v2.users.models import UserModel
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 DATABASE_URL_TEST = os.getenv('DATABASE_URL_TEST')
@@ -85,6 +88,7 @@ def tables():
 
 def super_user():
     password = generate_password_hash("hello123")
+
     user_admin = {
         "user_name":"mzito",
         "first_name": "jonte",
@@ -95,6 +99,11 @@ def super_user():
         "registered": "Thu, 13 Dec 2018 21:00:00 GMT",
         "password": password
     }
+
+    user_by_username = UserModel().find_user_by_username(user_admin['user_name'])
+    if user_by_username != None:
+        return 'super user already created'    
+  
     query = """INSERT INTO users (user_name,first_name,last_name,email,password,isAdmin,registered) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}');""".format(
         user_admin['user_name'], user_admin['first_name'], user_admin['last_name'], user_admin['email'], user_admin['password'], user_admin['isAdmin'], user_admin['registered'])
     conn = connection(DATABASE_URL)
