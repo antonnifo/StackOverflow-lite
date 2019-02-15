@@ -11,7 +11,7 @@ import psycopg2 as p
 import psycopg2.extras
 from werkzeug.security import generate_password_hash
 
-from app.api.v2.users.models import UserModel
+# from app.api.v2.users.models import UserModel
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 DATABASE_URL_TEST = os.getenv('DATABASE_URL_TEST')
@@ -85,6 +85,18 @@ def tables():
     queries = [tbl1, tbl2,tbl3]
     return queries
 
+def check_user(user_name):
+        query = """SELECT * from users WHERE user_name='{0}'""".format(user_name)
+        conn = connection(DATABASE_URL)
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(query)
+        row = cursor.fetchone()
+
+        if cursor.rowcount == 0:
+            return None
+        return row    
+
+
 
 def super_user():
     password = generate_password_hash("hello123")
@@ -99,10 +111,11 @@ def super_user():
         "registered": "Thu, 13 Dec 2018 21:00:00 GMT",
         "password": password
     }
+  
 
-    user_by_username = UserModel().find_user_by_username(user_admin['user_name'])
+    user_by_username = check_user(user_admin['user_name'])
     if user_by_username != None:
-        return 'super user already created'    
+        print('super user already created')    
   
     query = """INSERT INTO users (user_name,first_name,last_name,email,password,isAdmin,registered) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}');""".format(
         user_admin['user_name'], user_admin['first_name'], user_admin['last_name'], user_admin['email'], user_admin['password'], user_admin['isAdmin'], user_admin['registered'])
