@@ -3,7 +3,7 @@
 ### Tech/framework used  
 python 3.6.7 and [Flask](http://flask.pocoo.org/docs/dev/)   
 ### PROJECT OVERVIEW  
-A Q and A Platform  
+A Q and A Platform where V1 has been implemented using data structures and V2 is powered by a database (postgres) 
 ## Installation and Deployment. 
 ### Getting Started 
 > git clone https://github.com/antonnifo/StackOverflow-lite.git 
