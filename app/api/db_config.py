@@ -114,16 +114,18 @@ def super_user():
   
 
     user_by_username = check_user(user_admin['user_name'])
+    
     if user_by_username != None:
-        print('super user already created')    
-  
-    query = """INSERT INTO users (user_name,first_name,last_name,email,password,isAdmin,registered) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}');""".format(
+        print('super user already created')
+    else:
+        query = """INSERT INTO users (user_name,first_name,last_name,email,password,isAdmin,registered) VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}');""".format(
         user_admin['user_name'], user_admin['first_name'], user_admin['last_name'], user_admin['email'], user_admin['password'], user_admin['isAdmin'], user_admin['registered'])
-    conn = connection(DATABASE_URL)
-    cursor = conn.cursor()
-    try:
-        cursor.execute(query)
-        conn.commit()
-        print('super user created')
-    except:
-        print('failed to create super user')
+        conn = connection(DATABASE_URL)
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query)
+            conn.commit()
+            print('super user created')
+        except:
+            print('failed to create super user')        
+  
