@@ -4,17 +4,12 @@ python:
 install: 
   - pip install -r requirements.txt
   - pip install coveralls
- 
  services:
   - postgresql
-
 before_script:
   - psql -c "CREATE DATABASE stack;" -U postgres
-
 script: 
-  - pytest --cov-report term-missing --cov app
-  
+  - pytest --cov-report term-missing --cov app 
 after_success:
-  - coveralls
-  
+  - coveralls 
 cache: pip
