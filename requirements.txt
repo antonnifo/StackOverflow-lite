@@ -4,7 +4,7 @@ attrs==18.2.0
 autopep8==1.4.3
 Click==7.0
 coverage==4.5.2
-Flask==1.0.2
+Flask==2.3.2
 Flask-RESTful==0.3.7
 gunicorn==19.9.0
 itsdangerous==1.1.0
